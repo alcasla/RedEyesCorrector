@@ -10,7 +10,7 @@
 %           <filterSize> Value between [0,+inf] multiply mean area to
 %                       remove too large regions. Bigger filter bigger regions only
 %
-function [image, mask] = redEyes(img, intensity, saturation, filterSize)
+function [image, mask, regions] = redEyes(img, intensity, saturation, filterSize)
     %%
     %INITIAL MASK based on colormap
     Ihsv=rgb2hsv(img);      %get HSV colormap image to work with red colors
@@ -36,7 +36,7 @@ function [image, mask] = redEyes(img, intensity, saturation, filterSize)
     
     %there aren´t small points, I´ll detect large red areas, like hair or
     %clothes, linked and remove
-    [imgLabeled nRegions]=bwlabel(mask);    %label each region
+    [imgLabeled, regions]=bwlabel(mask);    %label each region
     
     %get region features, mainly area
     featureRegions = regionprops(imgLabeled);
